@@ -1,6 +1,6 @@
 # Grammaire avec Haresh Sir – online grammar tests
 
-Three online grammar tests for ICSE Grade 10 (Set A, Set B, Set C).
+Six online grammar pages for ICSE Grade 10: the slip tests (Set A, B, C) and three grammar practice sets (Set D, E, F).
 Students type their name, answer, see every mistake explained, and send their result to the teacher
 (PDF share to WhatsApp or Gmail, or an automatic email if you switch it on).
 

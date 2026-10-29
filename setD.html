@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Grammaire Set D – Haresh Sir</title>
+<script src="config.js"></script>
+</body></html>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: slim tricolour header, sticky score ribbon, then the paper's sections as cards. In section A the passage is pinned under the ribbon so it stays in view while the child answers. */
+:root{
+  --bg:#F3F6FC; --surface:#FFFFFF; --surface2:#EAF0FB; --ink:#0F1B3D; --muted:#55627F; --line:#D5DEF0;
+  --navy:#0B2A6F; --blue:#2457D6; --red:#E1342F; --good:#12875A; --good-bg:#E3F6EC; --bad:#C62F2B; --bad-bg:#FDEAE8;
+  --gold:#F2A516; --focus:#2457D6; --btntxt:#fff; --shadow:0 6px 22px rgba(11,42,111,.10);
+  --display:'Bricolage Grotesque','Trebuchet MS',system-ui,sans-serif; --body:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0A1128; --surface:#131D3D; --surface2:#1B2850; --ink:#EAF0FF; --muted:#A3B1D6; --line:#2A3A6A;
+  --blue:#6E9BFF; --red:#FF6A63; --good:#4FD39A; --good-bg:#10382B; --bad:#FF8B85; --bad-bg:#431B1B;
+  --gold:#FFC857; --focus:#9DBBFF; --btntxt:#07122E; --shadow:0 6px 22px rgba(0,0,0,.35); color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#0A1128; --surface:#131D3D; --surface2:#1B2850; --ink:#EAF0FF; --muted:#A3B1D6; --line:#2A3A6A;
+  --blue:#6E9BFF; --red:#FF6A63; --good:#4FD39A; --good-bg:#10382B; --bad:#FF8B85; --bad-bg:#431B1B;
+  --gold:#FFC857; --focus:#9DBBFF; --btntxt:#07122E; --shadow:0 6px 22px rgba(0,0,0,.35); color-scheme:dark;}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 56px}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.wrap{max-width:860px;margin:0 auto}
+header.top{background:var(--navy);color:#fff;margin-inline:calc(-1*max(16px,env(safe-area-inset-left,0px)));padding:10px max(16px,env(safe-area-inset-left,0px));border-bottom:4px solid transparent;border-image:linear-gradient(90deg,#2457D6 0 33.3%,#fff 33.3% 66.6%,#E1342F 66.6%) 1}
+.bar{max-width:860px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand svg{width:50px;height:50px;flex:none}
+.brand b{font-family:var(--display);font-size:1.2rem;line-height:1.1;display:block}
+.brand small{opacity:.85;font-size:.82rem}
+.sp{flex:1}
+.icon-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:999px;padding:7px 14px;font-weight:600;font-size:.9rem;white-space:nowrap}
+.icon-btn:hover{background:rgba(255,255,255,.22)}
+main{padding-top:20px}
+h1,h2,h3{font-family:var(--display);line-height:1.15;margin:0;text-wrap:balance}
+h2{font-size:1.55rem}
+.lead{color:var(--muted);margin:6px 0 16px;max-width:64ch}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:20px}
+.stat{background:var(--surface2);border-radius:12px;padding:5px 12px;font-weight:700;font-size:.92rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.progress{height:10px;background:var(--surface2);border-radius:99px;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--red));border-radius:99px;transition:width .4s}
+.ribbon{position:sticky;top:calc(env(safe-area-inset-top,0px) + 6px);z-index:12;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:8px 12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.ribbon .progress{flex:1;min-width:90px}
+.btn{border:0;border-radius:14px;padding:11px 20px;font-weight:700;background:var(--blue);color:var(--btntxt);box-shadow:0 3px 0 rgba(0,0,0,.22)}
+.btn:hover{filter:brightness(1.07)}
+.btn.ghost{background:var(--surface2);color:var(--ink);box-shadow:none}
+.btn.sm{padding:6px 12px;font-size:.88rem}
+.sec{margin-bottom:20px}
+.sec>header{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin:0 0 10px}
+.sec>header h3{font-size:1.15rem}
+.sec>header span{font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+/* pinned passage */
+.passage{background:var(--surface2);border:1px solid var(--line);border-radius:14px;padding:12px 16px;font-size:1.04rem;margin-bottom:6px}
+.passage.pin{position:sticky;top:var(--rh,64px);z-index:9;max-height:38vh;overflow:auto;box-shadow:0 10px 14px -10px rgba(11,42,111,.35)}
+.pinhead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:4px;font-weight:700;font-size:.78rem;letter-spacing:.07em;text-transform:uppercase;color:var(--blue)}
+.passage.collapsed .ptext{display:none}
+.blank{display:inline-block;min-width:3.2em;text-align:center;border-bottom:2.5px solid var(--muted);color:var(--muted);font-weight:700;padding:0 4px;margin:0 2px}
+.blank.on{border-color:var(--blue);color:var(--blue);background:color-mix(in srgb,var(--blue) 14%,transparent);border-radius:6px 6px 0 0}
+.blank.ok{border-color:var(--good);color:var(--good)}
+.blank.no{border-color:var(--bad);color:var(--bad);text-decoration:line-through}
+.wq{border-top:1px dashed var(--line);padding:14px 0}
+.wq.first{border-top:0}
+.qtext{font-size:1.1rem;font-weight:600;margin:2px 0 12px}
+.qtext u{text-decoration-thickness:3px;text-underline-offset:4px;text-decoration-color:var(--red);font-weight:800}
+.qtext .verb{color:var(--blue)}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:560px){.opts{grid-template-columns:1fr}}
+.opt{display:flex;gap:10px;align-items:center;text-align:left;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:11px 14px;min-height:52px;font-weight:600;transition:transform .12s,border-color .12s,background .12s}
+.opt:hover:not([disabled]){border-color:var(--blue);transform:translateY(-2px)}
+.opt .k{flex:none;width:30px;height:30px;border-radius:50%;background:var(--surface2);display:grid;place-items:center;font-weight:800;font-size:.9rem}
+.opt[disabled]{cursor:default}
+.opt.right{background:var(--good-bg);border-color:var(--good);animation:pop .4s}
+.opt.right .k{background:var(--good);color:#fff}
+.opt.wrong{background:var(--bad-bg);border-color:var(--bad);animation:shake .4s}
+.opt.wrong .k{background:var(--bad);color:#fff}
+.opt.dim{opacity:.55}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.04)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.fb{margin-top:12px;border-radius:16px;padding:12px 16px;border:2px solid;animation:rise .35s ease-out}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.fb.good{background:var(--good-bg);border-color:var(--good)}
+.fb.bad{background:var(--bad-bg);border-color:var(--bad)}
+.fb h3{font-size:1.1rem;margin-bottom:4px}
+.fb.good h3{color:var(--good)} .fb.bad h3{color:var(--bad)}
+.fb p{margin:6px 0}
+.fb .lbl{font-weight:800;font-size:.76rem;letter-spacing:.07em;text-transform:uppercase;display:block;color:var(--muted)}
+.final{text-align:center}
+.final .big{font-family:var(--display);font-size:3rem;font-weight:800;color:var(--blue)}
+.tbars{display:grid;gap:10px;margin:16px 0;text-align:left}
+.tbar{display:grid;grid-template-columns:minmax(80px,150px) 1fr 44px;gap:10px;align-items:center;font-weight:600;font-size:.95rem}
+.tbar .t{height:14px;background:var(--surface2);border-radius:99px;overflow:hidden}
+.tbar .t i{display:block;height:100%;background:var(--good);border-radius:99px}
+.review{text-align:left;margin-top:12px;display:grid;gap:10px}
+.review div{background:var(--surface2);border-radius:12px;padding:10px 14px;font-size:.95rem}
+.gate{max-width:560px;margin:8px auto 0}
+.gate label{display:block;font-weight:700;margin:12px 0 4px}
+.gate input{font:inherit;width:100%;padding:12px 14px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink)}
+.gate input:focus{border-color:var(--blue)}
+.err{color:var(--bad);font-weight:700;min-height:1.4em;margin:8px 0 0}
+.who{font-weight:700}
+.sendbox{display:grid;gap:10px;margin:18px auto 0;max-width:460px;text-align:left}
+.sendbox .btn{width:100%;text-align:center}
+.sendbox small{color:var(--muted);display:block;margin-top:-4px}
+.ok-msg{color:var(--good);font-weight:700;min-height:1.4em}
+#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+.note{font-size:.88rem;color:var(--muted);margin-top:18px}
+@media (max-width:560px){#an{display:none}#who{max-width:46vw;overflow:hidden;text-overflow:ellipsis}.ribbon{padding:6px 10px;gap:8px}.brand small{display:none}.brand b{font-size:1rem}.brand svg{width:42px;height:42px}.icon-btn{padding:6px 10px;font-size:.8rem}.passage.pin{max-height:34vh}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head><body>
+<header class="top"><div class="bar">
+  <div class="brand">
+    <svg viewBox="0 0 600 600" role="img" aria-label="Learn French with Haresh Sir logo">
+      <defs><clipPath id="lgin"><circle cx="300" cy="300" r="172"/></clipPath>
+      <path id="lgT" d="M 95 300 A 205 205 0 0 1 505 300"/><path id="lgB" d="M 55 300 A 245 245 0 0 0 545 300"/></defs>
+      <circle cx="300" cy="300" r="292" fill="#E1342F"/><circle cx="300" cy="300" r="282" fill="#fff"/><circle cx="300" cy="300" r="274" fill="#0B2A6F"/>
+      <circle cx="300" cy="300" r="178" fill="#fff"/>
+      <g clip-path="url(#lgin)"><rect x="100" y="120" width="400" height="360" fill="#FFF8E7"/>
+        <rect x="100" y="418" width="134" height="80" fill="#1F4FBF"/><rect x="234" y="418" width="132" height="80" fill="#fff"/><rect x="366" y="418" width="134" height="80" fill="#E1342F"/>
+        <g fill="none" stroke="#0B2A6F" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M300 150 L300 172"/><path d="M289 205 L311 205"/><path d="M300 172 L285 245 L264 330 L240 412"/><path d="M300 172 L315 245 L336 330 L360 412"/>
+          <path d="M285 245 L315 245"/><path d="M285 245 L322 280 M315 245 L278 280"/><path d="M278 280 L322 280"/><path d="M258 345 L342 345"/><path d="M256 345 Q300 290 344 345"/></g></g>
+      <circle cx="300" cy="300" r="178" fill="none" stroke="#E1342F" stroke-width="5"/>
+      <text font-family="Georgia,serif" font-weight="bold" font-size="42" letter-spacing="4" fill="#fff"><textPath href="#lgT" startOffset="50%" text-anchor="middle">LEARN FRENCH</textPath></text>
+      <text font-family="Georgia,serif" font-weight="bold" font-size="38" letter-spacing="3" fill="#fff"><textPath href="#lgB" startOffset="50%" text-anchor="middle">WITH HARESH SIR</textPath></text>
+    </svg>
+    <div><b>Grammaire avec Haresh Sir</b><small>ICSE Grade 10 · Grammar Practice · Set D</small></div>
+  </div>
+  <span class="sp"></span>
+  <button class="icon-btn" id="mute" aria-pressed="false" title="Sound on or off">🔊 Sound on</button>
+</div></header>
+
+<div class="wrap"><main>
+  <h2>Grammar Practice · Set D</h2>
+  <div class="card gate" id="gate">
+    <p style="margin-top:0">Write your name, then press Start. Tap the best answer for each question. It is marked straight away, and if you make a mistake you will see the reason. At the end you can send your result to your teacher.</p>
+    <label for="sname">Your name</label><input id="sname" type="text" maxlength="50" autocomplete="name" placeholder="First name and surname">
+    <label for="sclass">Class and division (for example 10 B)</label><input id="sclass" type="text" maxlength="20" placeholder="10 B">
+    <p class="err" id="gerr" role="alert"></p>
+    <p style="margin-bottom:0"><button class="btn" id="go">Start</button></p>
+  </div>
+  <div id="app" hidden>
+  <div class="ribbon" id="ribbon"><span class="stat who" id="who"></span><span class="stat" id="sc">0 / 25 correct</span><span class="stat" id="an">0 answered</span><div class="progress"><i id="pg"></i></div><button class="btn ghost sm" id="rs">Start over</button></div>
+  <div id="paper"></div>
+  <div id="end"></div>
+  </div>
+</main></div>
+<canvas id="confetti"></canvas>
+
+<script>
+const SET={"id": "D", "label": "Set D", "passage": "Le mois dernier, nous {1} (aller) à la campagne. Il {2} (faire) beau. On {3} (s’amuser) beaucoup. Maintenant, je {4} (se préparer) pour mon test de l’école. Mais, samedi prochain, je {5} (faire) de la randonnée avec mon cousin.", "sections": [{"h": "A.  Complétez le paragraphe avec les verbes qui conviennent.", "items": [{"q": "", "o": ["sommes allés", "allons", "irons", "avons allé"], "a": 0, "why": ["Correct. “Le mois dernier” = a finished action: passé composé. “Aller” takes être: nous sommes allés.", "“Allons” is the present. The sentence starts with “le mois dernier” (last month).", "“Irons” is the future. Last month is already over.", "“Aller” is a verb of movement, so it uses être, not avoir. Say “nous sommes allés”."]}, {"q": "", "o": ["fait", "faisait", "fera", "ferait"], "a": 1, "why": ["“Fait” is the present. We are describing the weather last month.", "Correct. The weather is a description of the past, so we use the imparfait: il faisait beau.", "“Fera” is the future, but the weather is described in the past.", "“Ferait” is the conditional (what would happen). This is a real description of the past."]}, {"q": "", "o": ["s’amuse", "s’est amusé", "s’amusera", "a amusé"], "a": 1, "why": ["“S’amuse” is the present. The trip was last month.", "Correct. A finished past event = passé composé. Reflexive verbs use être: on s’est amusé.", "“S’amusera” is the future. The trip has already happened.", "The reflexive pronoun is missing and a reflexive verb must use être. Say “on s’est amusé”."]}, {"q": "", "o": ["me prépare", "me préparais", "me préparerai", "se prépare"], "a": 0, "why": ["Correct. “Maintenant” = now, so the present. The reflexive pronoun matches “je”: je me prépare.", "“Me préparais” is the imparfait, a past tense. “Maintenant” means now.", "“Me préparerai” is the future. “Maintenant” means now.", "“Se” goes with il/elle/on. With “je” we need “me”."]}, {"q": "", "o": ["ai fait", "faisais", "ferai", "ferais"], "a": 2, "why": ["“Ai fait” is the passé composé, a past tense. “Samedi prochain” is in the future.", "“Faisais” is the imparfait, a past tense. Next Saturday has not come yet.", "Correct. “Samedi prochain” = next Saturday, so the future simple: je ferai.", "“Ferais” is the conditional. For a plan that will really happen, we use the future: je ferai."]}]}, {"h": "B.  Remplacez les mots soulignés par les pronoms convenables.", "items": [{"q": "Elle montre <u>les photos</u> <u>à ses parents</u>.", "o": ["Elle les leur montre.", "Elle leur les montre.", "Elle les lui montre.", "Elle en leur montre."], "a": 0, "why": ["Correct. “Les photos” becomes “les”, “à ses parents” becomes “leur”. Order: les before leur.", "Right pronouns, wrong order. “Le / la / les” come before “lui / leur”.", "“Lui” is singular. “Ses parents” is plural, so we need “leur”.", "“En” replaces “de + noun” or a quantity. Here we have definite photos, so “les”."]}, {"q": "Mets-tu <u>les stylos</u> <u>dans le cartable</u> ?", "o": ["Y les mets-tu ?", "Les en mets-tu ?", "Leur mets-tu ?", "Les y mets-tu ?"], "a": 3, "why": ["The order is wrong. “Y” always comes after “les / le / la”.", "“En” replaces “de + noun”. “Dans le cartable” is a place, so we need “y”.", "“Leur” is for people with “à”. Pens and a school bag are things, and “dans” gives a place.", "Correct. “Les stylos” = les and “dans le cartable” = y. Order: les + y, so “Les y mets-tu ?”."]}, {"q": "Tu téléphones <u>à ton professeur</u> après les cours.", "o": ["Tu y téléphones après les cours.", "Tu lui téléphones après les cours.", "Tu le téléphones après les cours.", "Tu leur téléphones après les cours."], "a": 1, "why": ["“Y” replaces things or places. Your teacher is a person.", "Correct. “Téléphoner à + person” takes the indirect pronoun. One person: lui.", "“Le” is a direct object pronoun. “Téléphoner” is used with “à”, so we need “lui”.", "“Leur” is plural. “Ton professeur” is one person."]}, {"q": "Ils vont <u>au centre sportif</u> le mercredi.", "o": ["Ils en vont le mercredi.", "Ils les vont le mercredi.", "Ils y vont le mercredi.", "Ils lui vont le mercredi."], "a": 2, "why": ["“En” replaces “de + noun”. They go “to” the centre, not “from” it.", "“Les” is a direct object. “Au centre sportif” is a place.", "Correct. “Y” replaces “à / au + place”: ils y vont.", "“Lui” is for people. A sports centre is a place."]}, {"q": "Avez-vous acheté <u>du gâteau</u> ?", "o": ["Y avez-vous acheté ?", "En avez-vous acheté ?", "L’avez-vous acheté ?", "Leur avez-vous acheté ?"], "a": 1, "why": ["“Y” replaces “à + noun” or a place. Here we have “du gâteau” (some cake).", "Correct. “Du / de la / des + noun” (an unknown quantity) is replaced by “en”.", "“Le / l’” is for a definite object (the cake). “Du gâteau” means some cake, so we use “en”.", "“Leur” is for people with “à”. There is no person here."]}]}, {"h": "C.  Complétez avec le comparatif ou le superlatif.", "items": [{"q": "Cette route est ___________ que l’ancienne. (sûr)", "o": ["plus sûre", "la plus sûre", "mieux", "meilleure"], "a": 0, "why": ["Correct. Two things are compared with “que”: plus + adjective + que. “Route” is feminine, so “sûre”.", "“La plus sûre” is the superlative and is not followed by “que”.", "“Mieux” is an adverb. “Sûre” is an adjective, so we need an adjective form.", "“Meilleure” is the comparative of “bonne”, not of “sûre”."]}, {"q": "De tous les élèves, Nadia explique ___________.", "o": ["plus clairement", "la plus claire", "le mieux", "meilleure"], "a": 2, "why": ["“Plus clairement” compares two people. “De tous les élèves” shows a superlative.", "“Claire” is an adjective. “Explique” is a verb, so we need an adverb.", "Correct. “De tous” = superlative. “Bien” (adverb) becomes “le mieux”.", "“Meilleure” is an adjective, but it describes the verb “explique”. We need the adverb “le mieux”."]}, {"q": "Elle est ___________ intelligente que son frère. Il n’y a pas de différence.", "o": ["moins", "plus", "aussi", "autant"], "a": 2, "why": ["“Moins” means less. There is no difference between them.", "“Plus” means more. There is no difference between them.", "Correct. “Pas de différence” = equality: aussi + adjective + que.", "“Autant” is used with nouns or verbs. Before an adjective we say “aussi”."]}, {"q": "Quelle est la ville ___________ de France ?", "o": ["bien", "la plus bonne", "mieux", "la plus belle"], "a": 3, "why": ["“Bien” is an adverb and cannot describe a noun.", "“Plus bonne” does not exist. We say “la meilleure”, and “bon” does not fit “ville” here.", "“Mieux” is an adverb and cannot describe “ville”.", "Correct. We need a superlative adjective for “ville” (feminine): la plus belle."]}, {"q": "Cette pizza est ___________ que celle d’hier. (bon)", "o": ["plus bonne", "meilleure", "mieux", "la meilleure"], "a": 1, "why": ["“Plus bonne” does not exist. The comparative of “bon” is “meilleur”.", "Correct. The comparative of “bon” is “meilleur”. “Pizza” is feminine: meilleure.", "“Mieux” is the comparative of the adverb “bien”, not of the adjective “bon”.", "“La meilleure” is the superlative, which does not take “que”."]}]}, {"h": "D.  Choisissez le pronom relatif qui convient.  (Questions 4 et 5 : reliez les deux phrases.)", "items": [{"q": "La tarte ___________ j’ai mangée était excellente.", "o": ["où", "qui", "que", "dont"], "a": 2, "why": ["“Où” is for places and times. A tarte is a thing.", "“Qui” is the subject of the next verb. Here “je” is the subject of “ai mangée”.", "Correct. “La tarte” is the direct object of “j’ai mangée”, so “que”.", "“Dont” replaces “de + noun”. We eat the tarte, not “of” it."]}, {"q": "C’est la maison de mon ami ___________ il est né.", "o": ["qui", "dont", "où", "que"], "a": 2, "why": ["“Qui” needs a verb right after it with the antecedent as its subject. Here “il” is already the subject.", "“Dont” replaces “de + noun”. Here we mean a place: he was born in the house.", "Correct. A place where something happened takes “où”.", "“Que” is a direct object. You are not born “something”; you are born in a place."]}, {"q": "L’émission ___________ tu parles m’intéresse beaucoup.", "o": ["qui", "que", "où", "dont"], "a": 3, "why": ["“Qui” is a subject. “Tu” is already the subject of “parles”.", "“Que” is a direct object. “Parler de” needs “de”.", "“Où” is for a place or a time. An émission is neither.", "Correct. “Parler de + noun” → the noun is replaced by “dont”."]}, {"q": "Voici un garçon. Il joue du piano.<br>Join the two sentences:", "o": ["Voici un garçon qui joue du piano.", "Voici un garçon que joue du piano.", "Voici un garçon dont joue du piano.", "Voici un garçon où joue du piano."], "a": 0, "why": ["Correct. “Il” (the boy) is the subject of “joue”. Subject = qui.", "“Que” is a direct object. “Joue” still needs its subject, the boy.", "“Dont” replaces “de + noun”. There is no “de” to replace.", "“Où” is for a place or time. The boy is a person."]}, {"q": "C’est le livre. J’ai acheté ce livre hier.<br>Join the two sentences:", "o": ["C’est le livre qui j’ai acheté hier.", "C’est le livre dont j’ai acheté hier.", "C’est le livre que j’ai acheté hier.", "C’est le livre où j’ai acheté hier."], "a": 2, "why": ["“Qui” is a subject, but “j’” is already the subject of “ai acheté”.", "“Dont” replaces “de + noun”. We bought the book, not “of” the book.", "Correct. “Ce livre” is the direct object of “j’ai acheté”, so “que”.", "“Où” is for a place or time. A book is a thing."]}]}, {"h": "E.  Choisissez la bonne réponse.  (Questions 1 à 3 : mettez au négatif ; question 4 : trouvez la question ; question 5 : la préposition.)", "items": [{"q": "Il y a quelqu’un là-bas ?", "o": ["Non, il n’y a personne là-bas.", "Non, il n’a personne là-bas.", "Non, il n’y a rien là-bas.", "Non, il y a ne personne là-bas."], "a": 0, "why": ["Correct. “Quelqu’un” becomes “ne … personne”: il n’y a personne.", "“Il y a” must stay together: il n’y a. “Il n’a” changes the meaning.", "“Rien” is the negative of “quelque chose”. “Quelqu’un” is a person, so “personne”.", "“Ne” goes before the verb group “y a”, not after “il y a”."]}, {"q": "Il y a encore des fraises dans le frigo.", "o": ["Il n’y a pas des fraises dans le frigo.", "Il n’y a plus de fraises dans le frigo.", "Il n’y a plus des fraises dans le frigo.", "Il n’y a rien dans le frigo."], "a": 1, "why": ["After a negative, “des” becomes “de”. And “encore” becomes “plus”, not “pas”.", "Correct. “Encore” → “ne … plus”, and “des” becomes “de”: il n’y a plus de fraises.", "The negation is right but “des” must become “de” after a negative.", "“Rien” would mean “nothing at all”, which changes the sentence."]}, {"q": "Je vois quelque chose dans ton sac.", "o": ["Non, je ne vois pas dans ton sac.", "Non, je ne vois jamais dans ton sac.", "Non, je ne vois personne dans ton sac.", "Non, je ne vois rien dans ton sac."], "a": 3, "why": ["“Ne … pas” does not turn “quelque chose” into “nothing”. We need “rien”.", "“Jamais” means never. It is the opposite of “toujours”, not of “quelque chose”.", "“Personne” is for people. “Quelque chose” is a thing.", "Correct. “Quelque chose” becomes “ne … rien”: je ne vois rien."]}, {"q": "<u>Oui</u>, il fait chaud.", "o": ["Est-ce qu’il est chaud ?", "Il chaud-fait ?", "Est-ce qu’il fait chaud ?", "Est-ce qu’il ne fait pas chaud ?"], "a": 2, "why": ["Weather expressions use “faire”, not “être”: il fait chaud.", "This is not a French word order. A question needs “est-ce que” or an inversion.", "Correct. The answer is yes, so the question has no negative: Est-ce qu’il fait chaud ?", "“Oui” answers a positive question. Negative questions get “si”."]}, {"q": "Le train partira ___________ dix minutes.", "o": ["dans", "depuis", "pendant", "chez"], "a": 0, "why": ["Correct. “Dans + time” gives the moment in the future: in ten minutes.", "“Depuis” is for an action that began in the past and continues.", "“Pendant” gives a duration (for ten minutes), not a point in the future.", "“Chez” means at someone’s home."]}]}]};
+const LET='abcd';
+const PRAISE=['Bravo !','Excellent !','Très bien !','Parfait !','Super !','Magnifique !'];
+const $=(s,r=document)=>r.querySelector(s);
+const el=(h)=>{const t=document.createElement('template');t.innerHTML=h.trim();return t.content.firstChild};
+const plain=h=>h.replace(/<[^>]+>/g,'');
+
+/* ---------- sound (synthesised) ---------- */
+let ctx=null,muted=false;
+try{muted=localStorage.getItem('hs-muted')==='1'}catch(e){}
+function ac(){if(!ctx){try{ctx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(ctx&&ctx.state==='suspended')ctx.resume();return ctx}
+function tone(f,t0,d,type,vol){const c=ac();if(!c||muted)return;const o=c.createOscillator(),g=c.createGain(),t=c.currentTime+t0;o.type=type||'triangle';o.frequency.value=f;
+ g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(vol||.18,t+.015);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+d+.05)}
+const sfx={good(){[523.25,659.25,783.99].forEach((f,i)=>tone(f,i*.08,.3))},
+ great(){[523.25,659.25,783.99,1046.5].forEach((f,i)=>tone(f,i*.07,.34))},
+ bad(){tone(220,0,.3,'sine',.15);tone(174.6,.13,.34,'sine',.13)},
+ win(){[523,659,784,1046,784,1046,1318].forEach((f,i)=>tone(f,i*.11,.4))},
+ tick(){tone(700,0,.05,'sine',.05)}};
+function setMute(m){muted=m;try{localStorage.setItem('hs-muted',m?'1':'0')}catch(e){}
+ const b=$('#mute');b.textContent=m?'🔇 Sound off':'🔊 Sound on';b.setAttribute('aria-pressed',String(m))}
+$('#mute').onclick=()=>{setMute(!muted);if(!muted){ac();sfx.good()}};setMute(muted);
+
+/* ---------- confetti ---------- */
+const cv=$('#confetti'),cx=cv.getContext('2d');let parts=[],raf=0;
+function fit(){cv.width=innerWidth*devicePixelRatio;cv.height=innerHeight*devicePixelRatio}
+addEventListener('resize',fit);fit();
+function burst(x,y,n){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+ const cols=['#2457D6','#E1342F','#F2A516','#12875A','#ffffff'],d=devicePixelRatio;
+ for(let i=0;i<n;i++)parts.push({x:x*d,y:y*d,vx:(Math.random()-.5)*10*d,vy:(Math.random()*-10-3)*d,r:(3+Math.random()*4)*d,c:cols[i%5],l:70+Math.random()*30,rot:Math.random()*6});
+ if(!raf)raf=requestAnimationFrame(loop)}
+function loop(){cx.clearRect(0,0,cv.width,cv.height);parts=parts.filter(p=>p.l>0);
+ parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.4*devicePixelRatio;p.l--;p.rot+=.2;cx.save();cx.translate(p.x,p.y);cx.rotate(p.rot);cx.fillStyle=p.c;cx.globalAlpha=Math.min(1,p.l/30);cx.fillRect(-p.r,-p.r/2,p.r*2,p.r);cx.restore()});
+ raf=parts.length?requestAnimationFrame(loop):0}
+
+/* ---------- worksheet ---------- */
+const VERBS=[...SET.passage.matchAll(/\{(\d)\} \(([^)]+)\)/g)].map(m=>m[2]);
+function passageHTML(fills){return SET.passage.replace(/\{(\d)\}/g,(m,k)=>{k=+k;const f=fills[k];
+  return f?`<span class="blank ${f.ok?'ok':'no'}">${f.w}</span>`:`<span class="blank on">(${k}) ____</span>`})}
+let streak=0,answered,fills,results;
+function mountQ(host,q,sIdx,n,cb){
+ const wrap=el('<div></div>');
+ let label;
+ if(sIdx===0)label=`<b>(${n+1})</b> Choose the verb: <span class="verb">${VERBS[n]}</span>`;
+ else label=`<b>${n+1}.</b> ${q.q}`;
+ wrap.append(el(`<div class="qtext">${label}</div>`));
+ const opts=el('<div class="opts" role="group" aria-label="Answer choices"></div>');
+ const btns=q.o.map((t,i)=>{const b=el(`<button class="opt" type="button"><span class="k">${LET[i]}</span><span>${t}</span></button>`);opts.append(b);return b});
+ wrap.append(opts);const fb=el('<div aria-live="polite"></div>');wrap.append(fb);host.append(wrap);
+ let done=false;
+ btns.forEach((b,i)=>b.onclick=()=>{if(done)return;done=true;ac();
+  const ok=i===q.a;btns.forEach((x,j)=>{x.disabled=true;if(j===q.a)x.classList.add('right');else if(j===i)x.classList.add('wrong');else x.classList.add('dim')});
+  if(ok){streak++;fb.innerHTML=`<div class="fb good"><h3>✔ ${PRAISE[Math.floor(Math.random()*PRAISE.length)]}</h3><p><span class="lbl">Why it works</span>${q.why[q.a].replace(/^Correct\.\s*/,'')}</p></div>`;
+   const r=b.getBoundingClientRect();burst(r.left+r.width/2,r.top,streak>=3?60:26);(streak>=3?sfx.great:sfx.good)()}
+  else{streak=0;fb.innerHTML=`<div class="fb bad"><h3>✘ Pas tout à fait</h3><p><span class="lbl">Why “${plain(q.o[i])}” does not fit</span>${q.why[i]}</p><p><span class="lbl">Correct answer: ${LET[q.a]}) ${plain(q.o[q.a])}</span>${q.why[q.a].replace(/^Correct\.\s*/,'')}</p></div>`;sfx.bad()}
+  cb(ok,i)});
+}
+function build(){
+ answered={};fills={};results=[];streak=0;$('#end').innerHTML='';
+ const paper=$('#paper');paper.innerHTML='';
+ SET.sections.forEach((s,si)=>{
+  const sec=el(`<div class="card sec"><header><h3>${s.h}</h3><span>[5]</span></header></div>`);
+  let pbox=null;
+  if(si===0){pbox=el(`<div class="passage pin" id="pbox"><div class="pinhead"><span>The text · stays in view</span><button class="btn ghost sm" id="ptog" aria-expanded="true">Hide text</button></div><div class="ptext" id="ptext">${passageHTML(fills)}</div></div>`);sec.append(pbox)}
+  s.items.forEach((q,n)=>{const w=el(`<div class="wq ${n===0?'first':''}"></div>`);
+   mountQ(w,q,si,n,(ok,ch)=>{answered[si+'-'+n]=ok;results.push({si,n,q,ok,ch});
+    if(si===0){fills[n+1]={w:q.o[ch],ok};$('#ptext').innerHTML=passageHTML(fills)}
+    upd()});sec.append(w)});
+  paper.append(sec)});
+ const t=$('#ptog');if(t)t.onclick=()=>{const c=$('#pbox').classList.toggle('collapsed');t.textContent=c?'Show text':'Hide text';t.setAttribute('aria-expanded',String(!c))};
+ upd(true);
+}
+function upd(init){const n=Object.keys(answered).length,c=Object.values(answered).filter(Boolean).length;
+ $('#sc').textContent=`${c} / 25 correct`;$('#an').textContent=`${n} answered`;$('#pg').style.width=n/25*100+'%';
+ if(!init&&n===25)finish(c)}
+function finish(c){
+ const pct=Math.round(c/25*100);if(pct>=60){sfx.win();burst(innerWidth/2,innerHeight/3,160)}
+ const msg=pct===100?'Parfait ! Every answer right.':pct>=80?'Très bien ! Almost perfect.':pct>=60?'Bien joué ! Read the reasons again and try once more.':'Courage ! Read each reason, then start over.';
+ const miss=results.filter(r=>!r.ok);
+ const bars=SET.sections.map((s,si)=>{const k=results.filter(r=>r.si===si&&r.ok).length;return `<div class="tbar"><span>${s.h.slice(0,2)} ${s.h.slice(3).split('.')[0].split(' (')[0].trim().slice(0,28)}</span><span class="t"><i style="width:${k/5*100}%"></i></span><span>${k}/5</span></div>`}).join('');
+ $('#end').innerHTML=`<div class="card final" id="fin"><p class="who" style="margin:0">${student.name}${student.cls?' · '+student.cls:''}</p><div class="big">${c} / 25</div><h3>${msg}</h3><div class="tbars">${bars}</div>
+  ${miss.length?`<h3 style="text-align:left">Revise these</h3><div class="review">${miss.map(r=>`<div><b>${r.si===0?'('+(r.n+1)+') '+VERBS[r.n]:plain(r.q.q).replace(/\s+/g,' ')}</b><br>✔ ${plain(r.q.o[r.q.a])}<br><span style="color:var(--muted)">${r.q.why[r.q.a].replace(/^Correct\.\s*/,'')}</span></div>`).join('')}</div>`:''}
+  ${sendBox()}<p style="margin-top:18px"><button class="btn ghost" id="again">Start over</button></p></div>`;
+ $('#again').onclick=restart;wireSend();
+ setTimeout(()=>$('#fin').scrollIntoView({behavior:'smooth',block:'start'}),350)}
+
+let student={name:'',cls:''};
+function restart(){sfx.tick();build();window.scrollTo({top:0,behavior:'smooth'})}
+$('#rs').onclick=restart;
+function rh(){document.documentElement.style.setProperty('--rh',($('#ribbon').offsetHeight+14)+'px')}
+addEventListener('resize',rh);addEventListener('load',rh);
+$('#go').onclick=()=>{const n=$('#sname').value.trim();if(n.length<2){$('#gerr').textContent='Please write your name first.';$('#sname').focus();return}
+ ac();student={name:n,cls:$('#sclass').value.trim()};$('#gerr').textContent='';$('#gate').hidden=true;$('#app').hidden=false;
+ $('#who').textContent=student.name+(student.cls?' · '+student.cls:'');sfx.tick();build();rh();setTimeout(rh,400);window.scrollTo({top:0})};
+$('#sname').addEventListener('keydown',e=>{if(e.key==='Enter')$('#go').click()});
+
+/* ---------- result report: PDF, share, WhatsApp, email ---------- */
+const CFG=Object.assign({teacherEmail:'',teacherWhatsApp:'',web3formsKey:''},window.HS_CONFIG||{});
+const SETNAME='Grammar Practice · '+SET.label;
+function stats(){const c=results.filter(r=>r.ok).length;const bySec=SET.sections.map((s,si)=>({k:results.filter(r=>r.si===si&&r.ok).length,name:s.h.slice(0,1)}));return {c,bySec,pct:Math.round(c/25*100)}}
+function qLabel(r){return r.si===0?'('+(r.n+1)+') '+VERBS[r.n]:plain(r.q.q).replace(/\s+/g,' ')}
+function summaryText(){const s=stats(),d=new Date();
+ const missed=results.filter(r=>!r.ok).sort((a,b)=>a.si-b.si||a.n-b.n).map(r=>'ABCDE'[r.si]+(r.n+1));
+ return ['Learn French with Haresh Sir','Grammar Practice - '+SET.label,'Name: '+student.name+(student.cls?' ('+student.cls+')':''),'Date: '+d.toLocaleDateString('en-GB')+' '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}),
+  'Score: '+s.c+' / 25 ('+s.pct+'%)','By section: '+s.bySec.map(x=>x.name+' '+x.k+'/5').join(', '),'To revise: '+(missed.length?missed.join(', '):'nothing, all correct')].join('\n')}
+function fileName(){return ('Grammaire_'+SET.label.replace(/\s+/g,'')+'_'+student.name).replace(/[^\w\-]+/g,'_')+'.pdf'}
+async function jspdfLib(){if(window.jspdf)return window.jspdf;
+ await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';s.onload=res;s.onerror=rej;document.head.append(s)});return window.jspdf}
+async function makePDF(){
+ const {jsPDF}=await jspdfLib();const doc=new jsPDF({unit:'mm',format:'a4'});const W=180,M=15;let y=M;
+ const clean=x=>plain(x).replace(/✔|✘/g,'').replace(/ /g,' ');
+ function put(text,size,style,rgb,gap){doc.setFont('helvetica',style||'normal');doc.setFontSize(size);doc.setTextColor(...(rgb||[20,30,60]));
+  const lines=doc.splitTextToSize(clean(text),W);const h=lines.length*size*0.46;if(y+h>285){doc.addPage();y=M}doc.text(lines,M,y+size*0.35);y+=h+(gap==null?1.5:gap)}
+ doc.setFillColor(11,42,111);doc.rect(0,0,210,24,'F');doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(16);doc.text('Learn French with Haresh Sir',M,11);
+ doc.setFontSize(10);doc.setFont('helvetica','normal');doc.text('ICSE Grade 10  |  '+SETNAME.replace('·','-').replace('·','-'),M,18);y=32;
+ const s=stats();
+ put('Name: '+student.name+(student.cls?'   Class: '+student.cls:''),12,'bold');
+ put('Date: '+new Date().toLocaleDateString('en-GB')+'   Time: '+new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}),10);
+ put('Score: '+s.c+' / 25  ('+s.pct+'%)',15,'bold',[11,42,111],2);
+ put(s.bySec.map(x=>x.name+'. '+x.k+'/5').join('     '),10,'normal',[85,98,127],4);
+ SET.sections.forEach((sec,si)=>{y+=2;put(sec.h.replace(/\s{2,}/g,'  '),11,'bold',[36,87,214],2);
+  results.filter(r=>r.si===si).sort((a,b)=>a.n-b.n).forEach(r=>{
+   put((r.si===0?qLabel(r):(r.n+1)+'. '+qLabel(r)),10,'bold',[20,30,60],1);
+   put('Your answer: '+LET[r.ch]+') '+r.q.o[r.ch]+(r.ok?'   [correct]':'   [wrong]'),10,'normal',r.ok?[18,135,90]:[198,47,43],1);
+   if(!r.ok){put('Correct answer: '+LET[r.q.a]+') '+r.q.o[r.q.a],10,'normal',[18,135,90],1);
+    put('Why your answer does not fit: '+r.q.why[r.ch],9.5,'normal',[85,98,127],1);
+    put('The rule: '+r.q.why[r.q.a].replace(/^Correct\.\s*/,''),9.5,'normal',[85,98,127],1)}
+   y+=2.5})});
+ return doc}
+async function pdfBlob(){const d=await makePDF();return d.output('blob')}
+function msg(t,bad){const m=$('#smsg');if(m){m.textContent=t;m.className=bad?'err':'ok-msg'}}
+async function onDownload(){try{msg('Making your PDF…');const d=await makePDF();d.save(fileName());msg('Your PDF is saved. You can attach it in WhatsApp or email.')}catch(e){msg('The PDF could not be made. Check your internet connection and try again.',1)}}
+async function onShare(){try{msg('Making your PDF…');const b=await pdfBlob();const f=new File([b],fileName(),{type:'application/pdf'});
+  if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'Grammaire '+SET.label,text:summaryText()});msg('Shared. Thank you!')}
+  else{const d=await makePDF();d.save(fileName());msg('Sharing files is not possible on this device. Your PDF was saved instead. Attach it in WhatsApp or email.')}}
+ catch(e){if(e&&e.name==='AbortError')msg('');else msg('Sharing did not work. Use "Download PDF" instead.',1)}}
+function onWhatsApp(){const num=(CFG.teacherWhatsApp||'').replace(/\D/g,'');const u='https://wa.me/'+(num||'')+'?text='+encodeURIComponent(summaryText());window.open(u,'_blank','noopener');msg('WhatsApp is opening. Press send.')}
+function onMail(){const u='mailto:'+(CFG.teacherEmail||'')+'?subject='+encodeURIComponent('Grammaire '+SET.label+' - '+student.name+' - '+stats().c+'/25')+'&body='+encodeURIComponent(summaryText()+'\n\n(Attach the PDF if you have saved it.)');location.href=u;msg('Your email app is opening. Press send.')}
+async function onAuto(){const b=$('#auto');b.disabled=true;msg('Sending…');
+ try{const r=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({access_key:CFG.web3formsKey,subject:'Grammaire '+SET.label+' - '+student.name+' - '+stats().c+'/25',from_name:student.name,name:student.name,message:summaryText()+'\n\nDetails:\n'+results.slice().sort((a,b)=>a.si-b.si||a.n-b.n).map(r=>'ABCDE'[r.si]+(r.n+1)+': '+(r.ok?'correct':'WRONG - chose '+LET[r.ch]+') '+plain(r.q.o[r.ch])+' / answer '+LET[r.q.a]+') '+plain(r.q.o[r.q.a]))).join('\n')})});
+  const j=await r.json();if(j.success){msg('Sent to your teacher. Thank you!');b.textContent='Sent ✓'}else throw 0}
+ catch(e){b.disabled=false;msg('It could not be sent. Try again, or use WhatsApp or email.',1)}}
+function sendBox(){return `<div class="sendbox"><h3 style="text-align:center">Send your result to your teacher</h3>
+ ${CFG.web3formsKey?'<button class="btn" id="auto">Send to my teacher</button><small>Your teacher receives your score and your mistakes.</small>':''}
+ <button class="btn ${CFG.web3formsKey?'ghost':''}" id="shr">Share my result (PDF)</button><small>On a phone, choose WhatsApp or Gmail and the PDF is attached for you.</small>
+ <button class="btn ghost" id="dl">Download PDF</button>
+ <button class="btn ghost" id="wa">Send a message on WhatsApp</button>
+ <button class="btn ghost" id="ml">Send an email</button>
+ <p id="smsg" class="ok-msg" role="status" aria-live="polite"></p></div>`}
+function wireSend(){$('#shr').onclick=onShare;$('#dl').onclick=onDownload;$('#wa').onclick=onWhatsApp;$('#ml').onclick=onMail;const a=$('#auto');if(a)a.onclick=onAuto}
+</script>
+</body></html>
